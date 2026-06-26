@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест по математике | AI-Наставник ЕГЭ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #F9F9F9;
+            color: #1A1A1A;
+            min-height: 100vh;
+        }
+
+        .test-header {
+            background: white;
+            border-bottom: 1px solid #E5E5E5;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .test-info {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .test-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .test-progress {
+            font-size: 14px;
+            color: #666666;
+        }
+
+        .timer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #F9F9F9;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .timer.warning {
+            background: #FFF7ED;
+            color: #EA580C;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #E5E5E5;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #FFE600;
+            transition: width 0.3s ease;
+        }
+
+        .test-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 24px;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+
+        .question-number {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #FFFBEB;
+            color: #764D00;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .question-text {
+            font-size: 20px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            color: #1A1A1A;
+        }
+
+        .question-image {
+            margin: 24px 0;
+            text-align: center;
+        }
+
+        .question-image img {
+            max-width: 100%;
+            border-radius: 12px;
+        }
+
+        .answer-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 16px 20px;
+            background: #F9F9F9;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 500;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: #FFE600;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(255, 230, 0, 0.1);
+        }
+
+        .answer-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .hint-box {
+            background: #EFF6FF;
+            border-left: 4px solid #3B82F6;
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-top: 24px;
+        }
+
+        .hint-box .hint-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1D4ED8;
+            margin-bottom: 8px;
+        }
+
+        .hint-box .hint-text {
+            font-size: 14px;
+            color: #1E40AF;
+            line-height: 1.5;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #FFE600;
+            color: #1A1A1A;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background: #FFDD00;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 230, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #666666;
+            border: 2px solid #E5E5E5;
+        }
+
+        .btn-secondary:hover {
+            background: #F9F9F9;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .questions-nav {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+            position: sticky;
+            top: 80px;
+        }
+
+        .nav-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .question-btn {
+            aspect-ratio: 1;
+            background: #F9F9F9;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .question-btn:hover {
+            background: white;
+            border-color: #E5E5E5;
+        }
+
+        .question-btn.answered {
+            background: #ECFDF5;
+            color: #047857;
+        }
+
+        .question-btn.active {
+            background: #FFE600;
+            color: #1A1A1A;
+        }
+
+        .finish-test {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+            text-align: center;
+        }
+
+        .finish-test h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .finish-test p {
+            color: #666666;
+            margin-bottom: 16px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 1024px) {
+            .test-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: 2;
+            }
+
+            .questions-nav {
+                position: static;
+            }
+
+            .questions-grid {
+                grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-header">
+        <div class="header-container">
+            <div class="test-info">
+                <div class="test-title">📝 Диагностический тест по математике</div>
+                <div class="test-progress">Вопрос <span id="current-q">1</span> из <span id="total-q">20</span></div>
+            </div>
+            <div class="timer">
+                ⏱️ <span id="timer">25:00</span>
+            </div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress" style="width: 5%"></div>
+        </div>
+    </div>
+
+    <div class="test-container" id="chat-container">
+        <div class="main-content">
+            <div class="question-card" id="question-container">
+                <div class="question-number">Задание #<span id="q-number">1</span></div>
+                <div class="question-text" id="q-text">
+                    Найдите значение выражения: <strong>(3² + 4²) × 2</strong>
+                </div>
+
+                <div class="answer-group">
+                    <label class="answer-label">Ваш ответ:</label>
+                    <input type="text" class="answer-input" id="answer-input" placeholder="Введите ответ" oninput="handleAnswer()">
+                </div>
+
+                <div class="hint-box">
+                    <div class="hint-title">💡 Подсказка</div>
+                    <div class="hint-text">Сначала вычисли степени, затем сложи результаты и умножь на 2</div>
+                </div>
+
+                <div class="navigation">
+                    <button class="btn btn-secondary" onclick="prevQuestion()">← Назад</button>
+                    <button class="btn btn-primary" onclick="nextQuestion()" id="next-btn">Следующий →</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="questions-nav">
+                <div class="nav-title">Навигация</div>
+                <div class="questions-grid" id="questions-grid">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+
+            <div class="finish-test">
+                <h3>Завершить тест?</h3>
+                <p>Убедись, что ответил на все вопросы</p>
+                <button class="btn btn-primary" onclick="finishTest()">Завершить</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                text: "Найдите значение выражения: <strong>(3² + 4²) × 2</strong>",
+                hint: "Сначала вычисли степени, затем сложи результаты и умножь на 2",
+                correctAnswer: "50"
+            },
+            {
+                id: 2,
+                text: "Решите уравнение: <strong>2x + 5 = 15</strong>",
+                hint: "Перенеси 5 в правую часть и раздели обе части на 2",
+                correctAnswer: "5"
+            },
+            {
+                id: 3,
+                text: "Найдите площадь прямоугольника со сторонами 8 см и 12 см",
+                hint: "Площадь прямоугольника = длина × ширина",
+                correctAnswer: "96"
+            },
+            {
+                id: 4,
+                text: "Упростите выражение: <strong>5a + 3a - 2a</strong>",
+                hint: "Сложи коэффициенты при одинаковых буквах",
+                correctAnswer: "6a"
+            },
+            {
+                id: 5,
+                text: "Найдите 20% от числа 150",
+                hint: "20% = 0.2, умножь 150 на 0.2",
+                correctAnswer: "30"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let answers = {};
+        let timeLeft = 1500; // 25 minutes in seconds
+
+        // Initialize
+        function init() {
+            renderQuestionsNav();
+            displayQuestion();
+            startTimer();
+        }
+
+        function renderQuestionsNav() {
+            const grid = document.getElementById('questions-grid');
+            questions.forEach((q, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'question-btn';
+                btn.textContent = index + 1;
+                btn.onclick = () => goToQuestion(index);
+                if (index === 0) btn.classList.add('active');
+                grid.appendChild(btn);
+            });
+        }
+
+        function displayQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('q-number').textContent = q.id;
+            document.getElementById('q-text').innerHTML = q.text;
+            document.querySelector('.hint-text').textContent = q.hint;
+            document.getElementById('answer-input').value = answers[currentQuestion] || '';
+            document.getElementById('current-q').textContent = currentQuestion + 1;
+            document.getElementById('total-q').textContent = questions.length;
+
+            // Update progress
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+
+            // Update navigation buttons
+            updateNavButtons();
+        }
+
+        function updateNavButtons() {
+            const buttons = document.querySelectorAll('.question-btn');
+            buttons.forEach((btn, index) => {
+                btn.classList.remove('active');
+                if (answers[index]) {
+                    btn.classList.add('answered');
+                }
+                if (index === currentQuestion) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function handleAnswer() {
+            const answer = document.getElementById('answer-input').value;
+            if (answer.trim()) {
+                answers[currentQuestion] = answer;
+                updateNavButtons();
+            }
+        }
+
+        function nextQuestion() {
+            handleAnswer();
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        }
+
+        function goToQuestion(index) {
+            handleAnswer();
+            currentQuestion = index;
+            displayQuestion();
+        }
+
+        function startTimer() {
+            setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    const timerElement = document.getElementById('timer');
+                    timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+                    // Warning at 5 minutes
+                    if (timeLeft <= 300) {
+                        document.querySelector('.timer').classList.add('warning');
+                    }
+                } else {
+                    finishTest();
+                }
+            }, 1000);
+        }
+
+        function finishTest() {
+            handleAnswer();
+            const answeredCount = Object.keys(answers).length;
+            if (answeredCount < questions.length) {
+                if (!confirm(`Ты ответил только на ${answeredCount} из ${questions.length} вопросов. Завершить тест?`)) {
+                    return;
+                }
+            }
+            console.log('Test finished with answers:', answers);
+            window.location.href = 'results.html';
+        }
+
+        init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Наставник ЕГЭ | Главная</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #FFFFFF;
+            color: #1A1A1A;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #E5E5E5;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1A1A1A;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #666666;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover {
+            color: #1A1A1A;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #FFE600;
+            color: #1A1A1A;
+        }
+
+        .btn-primary:hover {
+            background: #FFDD00;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 230, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #1A1A1A;
+            border: 2px solid #E5E5E5;
+        }
+
+        .btn-secondary:hover {
+            background: #F9F9F9;
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 120px 24px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-content .highlight {
+            color: #F5C400;
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #666666;
+            margin-bottom: 32px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .hero-visual {
+            background: linear-gradient(135deg, #FFE600 0%, #F5C400 100%);
+            border-radius: 24px;
+            padding: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-visual::before {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -50px;
+            right: -50px;
+        }
+
+        .hero-visual::after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            bottom: -30px;
+            left: -30px;
+        }
+
+        .hero-visual-content {
+            font-size: 120px;
+            z-index: 1;
+        }
+
+        /* Stats */
+        .stats {
+            background: #F9F9F9;
+            padding: 60px 24px;
+        }
+
+        .stats-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 48px;
+            text-align: center;
+        }
+
+        .stat h3 {
+            font-size: 48px;
+            font-weight: 700;
+            color: #1A1A1A;
+            margin-bottom: 8px;
+        }
+
+        .stat p {
+            font-size: 16px;
+            color: #666666;
+        }
+
+        /* Features */
+        .features {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 120px 24px;
+        }
+
+        .features-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .features-header h2 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .features-header p {
+            font-size: 18px;
+            color: #666666;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .feature-card {
+            background: white;
+            border: 2px solid #E5E5E5;
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.2s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            border-color: #FFE600;
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666666;
+        }
+
+        /* How it works */
+        .how-it-works {
+            background: #F9F9F9;
+            padding: 120px 24px;
+        }
+
+        .how-it-works-container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .how-it-works h2 {
+            font-size: 42px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .step {
+            background: white;
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: #FFE600;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 auto 20px;
+        }
+
+        .step h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .step p {
+            font-size: 14px;
+            color: #666666;
+            line-height: 1.5;
+        }
+
+        /* CTA Section */
+        .cta {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 120px 24px;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .cta p {
+            font-size: 20px;
+            color: #666666;
+            margin-bottom: 32px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1A1A1A;
+            color: white;
+            padding: 48px 24px;
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+        }
+
+        .footer-brand h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            color: #8C8C8C;
+            line-height: 1.6;
+        }
+
+        .footer-links h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .footer-links a {
+            display: block;
+            color: #8C8C8C;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 12px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #FFE600;
+        }
+
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 32px auto 0;
+            padding-top: 32px;
+            border-top: 1px solid #333333;
+            text-align: center;
+            color: #8C8C8C;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 60px 24px 40px;
+            }
+
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-icon">🎓</span>
+                <span>AI-Наставник ЕГЭ</span>
+            </div>
+            <nav class="nav">
+                <a href="#features">Возможности</a>
+                <a href="#how">Как работает</a>
+                <a href="#pricing">Цены</a>
+                <a href="auth.html" class="btn btn-secondary">Вход</a>
+                <a href="auth.html" class="btn btn-primary">Начать бесплатно</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Твой персональный <span class="highlight">AI-репетитор</span> по ЕГЭ</h1>
+            <p>Готовься к экзаменам эффективно: диагностика пробелов, персональный план и AI-объяснения ошибок. Без репетитора.</p>
+            <div class="hero-buttons">
+                <a href="auth.html" class="btn btn-primary">Начать бесплатно</a>
+                <a href="#how" class="btn btn-secondary">Как это работает</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-visual-content">🚀</div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat">
+                <h3>750K+</h3>
+                <p>Школьников сдают ЕГЭ ежегодно</p>
+            </div>
+            <div class="stat">
+                <h3>100%</h3>
+                <p>Персонализация обучения</p>
+            </div>
+            <div class="stat">
+                <h3>24/7</h3>
+                <p>AI-репетитор всегда на связи</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="features-header">
+            <h2>Почему AI-Наставник?</h2>
+            <p>Всё, что нужно для успешной подготовки к ЕГЭ и ОГЭ</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Диагностика пробелов</h3>
+                <p>Пройди тест и узнай свои слабые темы. AI построит персональный план подготовки.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💡</div>
+                <h3>AI-разбор ошибок</h3>
+                <p>Получай детальное объяснение каждой ошибки. Не просто "неверно", а почему и как правильно.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>Отслеживание прогресса</h3>
+                <p>Смотри, как растёт твой уровень. Графики, статистика и прогноз балла на экзамене.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🗓️</div>
+                <h3>Персональный план</h3>
+                <p>AI создаст план с учётом твоих слабых тем, целевого балла и времени до экзамена.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>AI-чат репетитор</h3>
+                <p>Задавай вопросы по любой теме 24/7. AI объяснит как настоящий репетитор.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎮</div>
+                <h3>Геймификация</h3>
+                <p>Получай достижения, прокачивай уровень и соревнуйся с другими учениками.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="how-it-works" id="how">
+        <div class="how-it-works-container">
+            <h2>Как это работает?</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h4>Регистрация</h4>
+                    <p>Зарегистрируйся и выбери экзамен (ОГЭ или ЕГЭ) и предметы</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h4>Диагностика</h4>
+                    <p>Пройди короткий тест, чтобы AI определил твой уровень</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h4>Учебный план</h4>
+                    <p>Получи персональный план подготовки с учётом твоих целей</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h4>Практика</h4>
+                    <p>Решай задания, получай AI-объяснения и следи за прогрессом</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <h2>Готов начать?</h2>
+        <p>Начни бесплатно и сдай ЕГЭ на максимальный балл</p>
+        <a href="auth.html" class="btn btn-primary" style="font-size: 18px; padding: 16px 32px;">Начать подготовку</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h3>🎓 AI-Наставник ЕГЭ</h3>
+                <p>Персонализированная подготовка к ОГЭ и ЕГЭ с помощью искусственного интеллекта. Доступно каждому.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Продукт</h4>
+                <a href="#features">Возможности</a>
+                <a href="#how">Как работает</a>
+                <a href="#pricing">Цены</a>
+                <a href="#">Предметы</a>
+            </div>
+            <div class="footer-links">
+                <h4>Компания</h4>
+                <a href="#">О нас</a>
+                <a href="#">Блог</a>
+                <a href="#">Контакты</a>
+                <a href="#">Карьера</a>
+            </div>
+            <div class="footer-links">
+                <h4>Поддержка</h4>
+                <a href="#">FAQ</a>
+                <a href="#">Помощь</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 AI-Наставник ЕГЭ. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

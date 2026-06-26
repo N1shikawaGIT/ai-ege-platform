@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль | AI-Наставник ЕГЭ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #F9F9F9;
+            color: #1A1A1A;
+            min-height: 100vh;
+            padding: 40px 24px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .back-link {
+            color: #666666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            color: #1A1A1A;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            margin-bottom: 24px;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid #E5E5E5;
+        }
+
+        .avatar-large {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #FFE600 0%, #F5C400 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+
+        .profile-info h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .profile-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 14px;
+            color: #666666;
+        }
+
+        .profile-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            background: #FFF3C1;
+            color: #764D00;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+
+        .section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #1A1A1A;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            background: #F9F9F9;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #FFE600;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(255, 230, 0, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .stat-box {
+            background: #F9F9F9;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666666;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 16px;
+        }
+
+        .achievement {
+            background: #F9F9F9;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .achievement.unlocked {
+            background: #FFFBEB;
+            border: 2px solid #FFE600;
+        }
+
+        .achievement.locked {
+            opacity: 0.5;
+        }
+
+        .achievement:hover {
+            transform: translateY(-2px);
+        }
+
+        .achievement-icon {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+
+        .achievement-name {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .subscription-card {
+            background: linear-gradient(135deg, #FFE600 0%, #F5C400 100%);
+            padding: 32px;
+            border-radius: 16px;
+            color: #1A1A1A;
+            margin-bottom: 20px;
+        }
+
+        .subscription-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .subscription-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .subscription-badge {
+            padding: 6px 16px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 9999px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .subscription-text {
+            font-size: 14px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: #FFE600;
+            color: #1A1A1A;
+        }
+
+        .btn-primary:hover {
+            background: #FFDD00;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 230, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #1A1A1A;
+            border: 2px solid #E5E5E5;
+        }
+
+        .btn-secondary:hover {
+            background: #F9F9F9;
+        }
+
+        .btn-dark {
+            background: #1A1A1A;
+            color: white;
+        }
+
+        .btn-dark:hover {
+            background: #333333;
+        }
+
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid #E5E5E5;
+        }
+
+        .toggle-info h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .toggle-info p {
+            font-size: 14px;
+            color: #666666;
+        }
+
+        .toggle-switch {
+            width: 48px;
+            height: 28px;
+            background: #E5E5E5;
+            border-radius: 9999px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .toggle-switch.active {
+            background: #FFE600;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            transition: all 0.2s;
+        }
+
+        .toggle-switch.active::after {
+            left: 23px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Профиль</h1>
+            <a href="dashboard.html" class="back-link">← К главной</a>
+        </div>
+
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="avatar-large">А</div>
+                <div class="profile-info">
+                    <h2>Алексей Иванов</h2>
+                    <div class="profile-meta">
+                        <span>alexey@example.com</span>
+                        <span>•</span>
+                        <span class="profile-badge">Free план</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personal Info -->
+            <div class="section">
+                <h3 class="section-title">Личная информация</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Имя</label>
+                        <input type="text" value="Алексей" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Фамилия</label>
+                        <input type="text" value="Иванов" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" value="alexey@example.com" readonly>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Класс</label>
+                        <select>
+                            <option>9 класс</option>
+                            <option>10 класс</option>
+                            <option selected>11 класс</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Экзамен</label>
+                        <select>
+                            <option>ОГЭ</option>
+                            <option selected>ЕГЭ</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="section">
+                <h3 class="section-title">Статистика</h3>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-value">89</div>
+                        <div class="stat-label">Заданий решено</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Тестов пройдено</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">7</div>
+                        <div class="stat-label">Дней подряд</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievements -->
+            <div class="section">
+                <h3 class="section-title">Достижения</h3>
+                <div class="achievements-grid">
+                    <div class="achievement unlocked">
+                        <div class="achievement-icon">🏆</div>
+                        <div class="achievement-name">Первый тест</div>
+                    </div>
+                    <div class="achievement unlocked">
+                        <div class="achievement-icon">🔥</div>
+                        <div class="achievement-name">7 дней подряд</div>
+                    </div>
+                    <div class="achievement unlocked">
+                        <div class="achievement-icon">📚</div>
+                        <div class="achievement-name">50 заданий</div>
+                    </div>
+                    <div class="achievement unlocked">
+                        <div class="achievement-icon">⭐</div>
+                        <div class="achievement-name">Первая 5</div>
+                    </div>
+                    <div class="achievement locked">
+                        <div class="achievement-icon">💯</div>
+                        <div class="achievement-name">100 заданий</div>
+                    </div>
+                    <div class="achievement locked">
+                        <div class="achievement-icon">🎯</div>
+                        <div class="achievement-name">30 дней</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subscription -->
+        <div class="profile-card">
+            <div class="section">
+                <h3 class="section-title">Подписка</h3>
+                <div class="subscription-card">
+                    <div class="subscription-header">
+                        <div class="subscription-title">Free план</div>
+                        <div class="subscription-badge">Активен</div>
+                    </div>
+                    <p class="subscription-text">
+                        • 10 AI-объяснений в день<br>
+                        • 20 сообщений в чате<br>
+                        • 3 теста в день
+                    </p>
+                    <button class="btn btn-dark">Перейти на Premium</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings -->
+        <div class="profile-card">
+            <div class="section">
+                <h3 class="section-title">Настройки</h3>
+
+                <div class="toggle-group">
+                    <div class="toggle-info">
+                        <h4>Уведомления</h4>
+                        <p>Получать напоминания о занятиях</p>
+                    </div>
+                    <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+                </div>
+
+                <div class="toggle-group">
+                    <div class="toggle-info">
+                        <h4>Email-рассылка</h4>
+                        <p>Новости и полезные материалы</p>
+                    </div>
+                    <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+                </div>
+
+                <div class="toggle-group" style="border-bottom: none;">
+                    <div class="toggle-info">
+                        <h4>Темная тема</h4>
+                        <p>Изменить внешний вид интерфейса</p>
+                    </div>
+                    <div class="toggle-switch" onclick="this.classList.toggle('active')"></div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary">Сохранить изменения</button>
+                <button class="btn btn-secondary">Отмена</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

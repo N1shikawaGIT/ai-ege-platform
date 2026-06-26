@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Наставник ЕГЭ | Прототипы</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #F9F9F9;
+            color: #1A1A1A;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #1A1A1A;
+        }
+
+        p {
+            font-size: 18px;
+            color: #666666;
+            margin-bottom: 48px;
+        }
+
+        .prototypes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .prototype-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .prototype-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .prototype-card h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1A1A1A;
+        }
+
+        .prototype-card .description {
+            font-size: 16px;
+            color: #666666;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .prototype-card .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #FFF3C1;
+            color: #764D00;
+            border-radius: 9999px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .header {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 48px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+
+        .header .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1A1A1A;
+            margin-bottom: 8px;
+        }
+
+        .header .tagline {
+            font-size: 16px;
+            color: #666666;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 12px;
+            background: #ECFDF5;
+            color: #047857;
+            border-radius: 9999px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-left: 12px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #10B981;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🎓 AI-Наставник ЕГЭ</div>
+            <div class="tagline">Интерактивные HTML-прототипы в стиле Т-банка</div>
+        </div>
+
+        <h1>Прототипы экранов <span class="status"><span class="status-dot"></span>В разработке</span></h1>
+        <p>Кликай на карточки, чтобы посмотреть прототипы экранов. Все экраны интерактивные и в реальном дизайне.</p>
+
+        <div class="prototypes-grid">
+            <a href="landing.html" class="prototype-card">
+                <h2>🏠 Landing Page</h2>
+                <p class="description">Главная страница сайта с hero секцией, преимуществами и призывом к действию</p>
+                <span class="badge">Готов</span>
+            </a>
+
+            <a href="auth.html" class="prototype-card">
+                <h2>🔐 Регистрация / Вход</h2>
+                <p class="description">Страница авторизации с входом через email и Google</p>
+                <span class="badge">Готов</span>
+            </a>
+
+            <a href="onboarding.html" class="prototype-card">
+                <h2>👋 Onboarding</h2>
+                <p class="description">Приветствие и настройка: выбор экзамена, предмета, целевого балла</p>
+                <span class="badge">Готов</span>
+            </a>
+
+            <a href="test.html" class="prototype-card">
+                <h2>📝 Страница теста</h2>
+                <p class="description">Интерфейс прохождения диагностического теста с таймером и навигацией</p>
+                <span class="badge">Готов</span>
+            </a>
+
+            <a href="results.html" class="prototype-card">
+                <h2>📊 Результаты теста</h2>
+                <p class="description">Страница результатов с AI-разбором ошибок и слабыми темами</p>
+                <span class="badge">Готов</span>
+            </a>
+
+            <a href="dashboard.html" class="prototype-card">
+                <h2>🏡 Dashboard</h2>
+                <p class="description">Личный кабинет с прогрессом, статистикой и быстрым доступом к функциям</p>
+                <span class="badge">Готов</span>
+            </a>
+
+            <a href="chat.html" class="prototype-card">
+                <h2>💬 AI-Чат</h2>
+                <p class="description">Интерфейс чата с AI-репетитором для вопросов по темам</p>
+                <span class="badge">Готов</span>
+            </a>
+
+            <a href="profile.html" class="prototype-card">
+                <h2>👤 Профиль</h2>
+                <p class="description">Настройки профиля, статистика и управление подпиской</p>
+                <span class="badge">Готов</span>
+            </a>
+        </div>
+
+        <div class="header">
+            <div class="tagline">📅 Создано: 26 июня 2026 | 🎨 Стиль: Т-банк | 🛠️ Технологии: HTML + CSS + JS</div>
+        </div>
+    </div>
+</body>
+</html>

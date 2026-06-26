@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результаты теста | AI-Наставник ЕГЭ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #F9F9F9;
+            color: #1A1A1A;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* Two column layout */
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .main-column {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .sidebar-column {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Results header - no circle, compact */
+        .results-header {
+            background: linear-gradient(135deg, #FFE600 0%, #F5C400 100%);
+            border-radius: 16px;
+            padding: 32px;
+            color: #1A1A1A;
+        }
+
+        .results-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.8;
+            margin-bottom: 24px;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        /* Sidebar: Weak topics */
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .topic-card {
+            background: #FFF7ED;
+            border-left: 4px solid #F97316;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .topic-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .topic-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .topic-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .topic-score {
+            font-size: 20px;
+            font-weight: 700;
+            color: #EA580C;
+        }
+
+        .topic-tasks {
+            font-size: 13px;
+            color: #666666;
+        }
+
+        /* Questions review - compact */
+        .question-item {
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 2px solid #E5E5E5;
+        }
+
+        .question-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .question-item.correct {
+            background: #ECFDF5;
+            border-color: #10B981;
+        }
+
+        .question-item.incorrect {
+            background: #FEF2F2;
+            border-color: #EF4444;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .question-number {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .question-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .question-status.correct {
+            background: #D1FAE5;
+            color: #047857;
+        }
+
+        .question-status.incorrect {
+            background: #FEE2E2;
+            color: #B91C1C;
+        }
+
+        .question-text {
+            font-size: 15px;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .answer-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .answer-box {
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .answer-box.user {
+            background: white;
+            border: 2px solid #E5E5E5;
+        }
+
+        .answer-box.correct {
+            background: #ECFDF5;
+            border: 2px solid #10B981;
+        }
+
+        .answer-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #666666;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .answer-value {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .ai-explanation {
+            background: #EFF6FF;
+            border-left: 4px solid #3B82F6;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .ai-explanation-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1D4ED8;
+            margin-bottom: 10px;
+        }
+
+        .ai-explanation-text {
+            font-size: 13px;
+            color: #1E40AF;
+            line-height: 1.6;
+        }
+
+        .ai-explanation-text p {
+            margin-bottom: 10px;
+        }
+
+        .ai-explanation-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .ai-explanation-text ol,
+        .ai-explanation-text ul {
+            margin-left: 18px;
+            line-height: 1.7;
+        }
+
+        .show-explanation-btn {
+            padding: 8px 14px;
+            background: #3B82F6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+
+        .show-explanation-btn:hover {
+            background: #2563EB;
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .btn {
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .btn-primary {
+            background: #FFE600;
+            color: #1A1A1A;
+        }
+
+        .btn-primary:hover {
+            background: #FFDD00;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 230, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #1A1A1A;
+            border: 2px solid #E5E5E5;
+        }
+
+        .btn-secondary:hover {
+            background: #F9F9F9;
+        }
+
+        @media (max-width: 1024px) {
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar-column {
+                order: -1;
+            }
+
+            .answer-comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="results-grid">
+            <!-- Main Column -->
+            <div class="main-column">
+                <!-- Results Header -->
+                <div class="results-header">
+                    <h1>Диагностика завершена! 🎉</h1>
+                    <p class="subtitle">Ты прошёл тест и теперь мы знаем твои сильные и слабые места</p>
+
+                    <div class="stats-row">
+                        <div class="stat-box">
+                            <div class="stat-value">9/20</div>
+                            <div class="stat-label">Правильных ответов</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value">45%</div>
+                            <div class="stat-label">Текущий уровень</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value">85</div>
+                            <div class="stat-label">Целевой балл</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Questions Review -->
+                <div class="card">
+                    <h2 class="section-title">📝 Разбор заданий</h2>
+
+                    <!-- Incorrect question -->
+                    <div class="question-item incorrect">
+                        <div class="question-header">
+                            <span class="question-number">Задание #1</span>
+                            <span class="question-status incorrect">✗ Неверно</span>
+                        </div>
+                        <div class="question-text">
+                            Найдите значение выражения: <strong>(3² + 4²) × 2</strong>
+                        </div>
+
+                        <div class="answer-comparison">
+                            <div class="answer-box user">
+                                <div class="answer-label">Твой ответ</div>
+                                <div class="answer-value">46</div>
+                            </div>
+                            <div class="answer-box correct">
+                                <div class="answer-label">Правильный ответ</div>
+                                <div class="answer-value">50</div>
+                            </div>
+                        </div>
+
+                        <div class="ai-explanation" id="explanation-1" style="display: none;">
+                            <div class="ai-explanation-header">
+                                🤖 AI-разбор ошибки
+                            </div>
+                            <div class="ai-explanation-text">
+                                <p><strong>Где ошибка:</strong> Похоже, ты неправильно вычислил квадраты чисел или сложил их неверно.</p>
+
+                                <p><strong>Правильное решение:</strong></p>
+                                <ol>
+                                    <li>3² = 3 × 3 = 9</li>
+                                    <li>4² = 4 × 4 = 16</li>
+                                    <li>9 + 16 = 25</li>
+                                    <li>25 × 2 = 50</li>
+                                </ol>
+
+                                <p><strong>Что повторить:</strong> Действия со степенями, порядок арифметических операций</p>
+                            </div>
+                        </div>
+                        <button class="show-explanation-btn" onclick="toggleExplanation(1)">
+                            Показать AI-разбор
+                        </button>
+                    </div>
+
+                    <!-- Correct question -->
+                    <div class="question-item correct">
+                        <div class="question-header">
+                            <span class="question-number">Задание #2</span>
+                            <span class="question-status correct">✓ Верно</span>
+                        </div>
+                        <div class="question-text">
+                            Решите уравнение: <strong>2x + 5 = 15</strong>
+                        </div>
+
+                        <div class="answer-comparison">
+                            <div class="answer-box correct">
+                                <div class="answer-label">Твой ответ</div>
+                                <div class="answer-value">5</div>
+                            </div>
+                            <div class="answer-box correct">
+                                <div class="answer-label">Правильный ответ</div>
+                                <div class="answer-value">5</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Another incorrect -->
+                    <div class="question-item incorrect">
+                        <div class="question-header">
+                            <span class="question-number">Задание #3</span>
+                            <span class="question-status incorrect">✗ Неверно</span>
+                        </div>
+                        <div class="question-text">
+                            Найдите площадь прямоугольника со сторонами 8 см и 12 см
+                        </div>
+
+                        <div class="answer-comparison">
+                            <div class="answer-box user">
+                                <div class="answer-label">Твой ответ</div>
+                                <div class="answer-value">40</div>
+                            </div>
+                            <div class="answer-box correct">
+                                <div class="answer-label">Правильный ответ</div>
+                                <div class="answer-value">96</div>
+                            </div>
+                        </div>
+
+                        <div class="ai-explanation" id="explanation-3" style="display: none;">
+                            <div class="ai-explanation-header">
+                                🤖 AI-разбор ошибки
+                            </div>
+                            <div class="ai-explanation-text">
+                                <p><strong>Где ошибка:</strong> Ты, вероятно, нашёл периметр вместо площади.</p>
+
+                                <p><strong>В чём разница:</strong></p>
+                                <ul>
+                                    <li><strong>Периметр</strong> — сумма всех сторон: (8 + 12) × 2 = 40 см</li>
+                                    <li><strong>Площадь</strong> — произведение сторон: 8 × 12 = 96 см²</li>
+                                </ul>
+
+                                <p><strong>Что повторить:</strong> Формулы площади и периметра геометрических фигур</p>
+                            </div>
+                        </div>
+                        <button class="show-explanation-btn" onclick="toggleExplanation(3)">
+                            Показать AI-разбор
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="actions">
+                    <a href="dashboard.html" class="btn btn-primary">Перейти в личный кабинет</a>
+                    <a href="chat.html" class="btn btn-secondary">Задать вопрос AI-репетитору</a>
+                </div>
+            </div>
+
+            <!-- Sidebar Column -->
+            <div class="sidebar-column">
+                <!-- Weak Topics -->
+                <div class="card">
+                    <h2 class="section-title">📉 Темы для изучения</h2>
+                    <p style="font-size: 13px; color: #666666; margin-bottom: 16px;">AI определил твои слабые места. Начни с этих тем</p>
+
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <div class="topic-name">Тригонометрия</div>
+                            <div class="topic-score">33%</div>
+                        </div>
+                        <div class="topic-tasks">4 ошибки из 6 заданий</div>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <div class="topic-name">Производные</div>
+                            <div class="topic-score">40%</div>
+                        </div>
+                        <div class="topic-tasks">3 ошибки из 5 заданий</div>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <div class="topic-name">Текстовые задачи</div>
+                            <div class="topic-score">50%</div>
+                        </div>
+                        <div class="topic-tasks">2 ошибки из 4 заданий</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleExplanation(id) {
+            const explanation = document.getElementById('explanation-' + id);
+            const btn = event.target;
+
+            if (explanation.style.display === 'none') {
+                explanation.style.display = 'block';
+                btn.textContent = 'Скрыть AI-разбор';
+            } else {
+                explanation.style.display = 'none';
+                btn.textContent = 'Показать AI-разбор';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | AI-Наставник ЕГЭ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #F9F9F9;
+            color: #1A1A1A;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-right: 1px solid #E5E5E5;
+            padding: 24px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #666666;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            background: #F9F9F9;
+            color: #1A1A1A;
+        }
+
+        .nav-link.active {
+            background: #FFFBEB;
+            color: #1A1A1A;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        .user-profile {
+            margin-top: auto;
+            padding-top: 24px;
+            border-top: 1px solid #E5E5E5;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FFE600 0%, #F5C400 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .user-details {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .user-plan {
+            font-size: 12px;
+            color: #666666;
+        }
+
+        /* Main content */
+        .main-content {
+            padding: 40px;
+        }
+
+        .header {
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header-subtitle {
+            font-size: 16px;
+            color: #666666;
+        }
+
+        .progress-card {
+            background: linear-gradient(135deg, #FFE600 0%, #F5C400 100%);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 32px;
+            color: #1A1A1A;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .progress-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .progress-percentage {
+            font-size: 48px;
+            font-weight: 700;
+        }
+
+        .progress-bar-container {
+            background: rgba(0, 0, 0, 0.1);
+            height: 12px;
+            border-radius: 9999px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .progress-bar-fill {
+            background: #1A1A1A;
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: #FFFBEB;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: #666666;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .card-action {
+            padding: 10px 20px;
+            background: #FFE600;
+            color: #1A1A1A;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .card-action:hover {
+            background: #FFDD00;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .view-all {
+            color: #666666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .view-all:hover {
+            color: #1A1A1A;
+        }
+
+        .weak-topics-list {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+            margin-bottom: 32px;
+        }
+
+        .topic-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #F2F2F2;
+        }
+
+        .topic-item:last-child {
+            border-bottom: none;
+        }
+
+        .topic-info {
+            flex: 1;
+        }
+
+        .topic-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .topic-tasks {
+            font-size: 14px;
+            color: #666666;
+        }
+
+        .topic-score {
+            font-size: 24px;
+            font-weight: 700;
+            color: #F97316;
+            margin-right: 16px;
+        }
+
+        .practice-btn {
+            padding: 8px 16px;
+            background: #F9F9F9;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .practice-btn:hover {
+            background: #FFE600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666666;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span>🎓</span>
+                <span>AI-Наставник</span>
+            </div>
+
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link active">
+                            <span class="nav-icon">🏠</span>
+                            <span>Главная</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="test.html" class="nav-link">
+                            <span class="nav-icon">📝</span>
+                            <span>Тесты</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="chat.html" class="nav-link">
+                            <span class="nav-icon">💬</span>
+                            <span>AI-Чат</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">📊</span>
+                            <span>Прогресс</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">🗓️</span>
+                            <span>План обучения</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="profile.html" class="nav-link">
+                            <span class="nav-icon">👤</span>
+                            <span>Профиль</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="user-profile">
+                <div class="user-info">
+                    <div class="avatar">А</div>
+                    <div class="user-details">
+                        <div class="user-name">Алексей</div>
+                        <div class="user-plan">Free план</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <h1>Привет, Алексей! 👋</h1>
+                <p class="header-subtitle">Продолжай подготовку — до экзамена осталось 180 дней</p>
+            </div>
+
+            <!-- Progress Card -->
+            <div class="progress-card">
+                <div class="progress-header">
+                    <div class="progress-title">Твой прогресс</div>
+                    <div class="progress-percentage">45%</div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" style="width: 45%"></div>
+                </div>
+                <p class="progress-text">Ты на правильном пути! Продолжай заниматься каждый день 🚀</p>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">Дней подряд</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">89</div>
+                    <div class="stat-label">Заданий решено</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Тестов пройдено</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Достижений</div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="section-header">
+                <h2 class="section-title">Быстрые действия</h2>
+            </div>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">📝</div>
+                    <h3 class="card-title">Новый тест</h3>
+                    <p class="card-description">Пройди диагностический тест и узнай свой уровень</p>
+                    <a href="test.html" class="card-action">Начать тест</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">💬</div>
+                    <h3 class="card-title">AI-Репетитор</h3>
+                    <p class="card-description">Задай вопрос по любой теме и получи объяснение</p>
+                    <a href="chat.html" class="card-action">Открыть чат</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <h3 class="card-title">Продолжить план</h3>
+                    <p class="card-description">Твой персональный план обучения на сегодня</p>
+                    <a href="#" class="card-action">Открыть план</a>
+                </div>
+            </div>
+
+            <!-- Weak Topics -->
+            <div class="section-header">
+                <h2 class="section-title">Слабые темы</h2>
+                <a href="#" class="view-all">Все темы →</a>
+            </div>
+            <div class="weak-topics-list">
+                <div class="topic-item">
+                    <div class="topic-info">
+                        <div class="topic-name">Тригонометрия</div>
+                        <div class="topic-tasks">4 ошибки из 6 заданий</div>
+                    </div>
+                    <div class="topic-score">33%</div>
+                    <button class="practice-btn">Тренировать</button>
+                </div>
+
+                <div class="topic-item">
+                    <div class="topic-info">
+                        <div class="topic-name">Производные и интегралы</div>
+                        <div class="topic-tasks">3 ошибки из 5 заданий</div>
+                    </div>
+                    <div class="topic-score">40%</div>
+                    <button class="practice-btn">Тренировать</button>
+                </div>
+
+                <div class="topic-item">
+                    <div class="topic-info">
+                        <div class="topic-name">Текстовые задачи</div>
+                        <div class="topic-tasks">2 ошибки из 4 заданий</div>
+                    </div>
+                    <div class="topic-score">50%</div>
+                    <button class="practice-btn">Тренировать</button>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
