@@ -114,3 +114,10 @@ Before committing app code, run the relevant checks. For documentation-only chan
 - Create Firebase project and add environment variables.
 - Create OpenAI API key and add `OPENAI_API_KEY`.
 - Connect Vercel after the Next.js app can build.
+## Session Continuity
+
+- Keep this file updated with meaningful progress after each working session: setup changes, decisions, blockers, and verified next steps.
+- At the start of a new session, read `AGENTS.md` first before making assumptions about project state.
+- The latest local/GitHub setup completed in this chat: Git 2.54.0 and GitHub CLI 2.95.0 were installed, GitHub CLI was authenticated as `N1shikawaGIT`, Git user config was set to `N1shikawaGIT <297624683+N1shikawaGIT@users.noreply.github.com>`, and GitHub CLI was configured as the HTTPS credential helper.
+- Repository review completed: the repo currently contains documentation, HTML prototypes, config files, setup guides, assets, and a 20-question math base JSON bank, but no real Next.js `app/`, `pages/`, or `src/` implementation yet.
+- Trial prototype links found: GitHub Pages is not enabled and there are no deployments; use `https://htmlpreview.github.io/?https://github.com/N1shikawaGIT/ai-ege-platform/blob/main/prototypes/index.html` for the prototype index and `https://htmlpreview.github.io/?https://github.com/N1shikawaGIT/ai-ege-platform/blob/main/prototypes/landing.html` for the landing prototype.
